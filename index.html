@@ -126,6 +126,17 @@
   .prompt-card-dur { font-size: 11px; color: var(--ink3); background: white; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--paper3); }
   .prompt-copy-btn { background: var(--ink); color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s; }
   .prompt-copy-btn:hover { background: var(--accent); }
+  .open-kling-btn { background: var(--kling); color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+  .open-kling-btn:hover { background: #c8900f; }
+  .open-runway-btn { background: var(--runway); color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+  .open-runway-btn:hover { background: #0050cc; }
+  .open-pika-btn { background: var(--pika); color: white; border: none; border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+  .open-pika-btn:hover { background: #7e22ce; }
+  .kling-banner { background: linear-gradient(135deg, #fff8e6 0%, #fef3c7 100%); border: 1px solid #f5d87a; border-radius: var(--radius); padding: 14px 18px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .kling-banner-text { font-size: 13px; color: #7a5c00; }
+  .kling-banner-text strong { color: #5a4000; }
+  .kling-open-big { background: var(--kling); color: white; border: none; border-radius: 999px; padding: 10px 22px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: background 0.15s, transform 0.1s; white-space: nowrap; }
+  .kling-open-big:hover { background: #c8900f; transform: translateY(-1px); }
   .prompt-text { padding: 14px; font-size: 13px; line-height: 1.7; color: var(--ink); font-family: 'DM Sans', sans-serif; }
   .prompt-tags { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 14px 14px; }
   .prompt-tag { font-size: 11px; padding: 3px 10px; border-radius: 999px; border: 1px solid; font-weight: 500; }
@@ -304,6 +315,13 @@
         <button class="tool-btn" id="tool-kling" onclick="selectTool('kling')">🎥 Kling AI</button>
       </div>
 
+      <div class="kling-banner">
+        <div class="kling-banner-text">
+          <strong>🎥 Best value for 1080p:</strong> Kling AI gives ~25–30 full videos/month for just $10. Copy a prompt below then click Open Kling to paste and generate instantly.
+        </div>
+        <a href="https://klingai.com" target="_blank" class="kling-open-big">🎥 Open Kling AI ↗</a>
+      </div>
+
       <div class="prompt-cards" id="prompt-cards"></div>
 
       <button class="copy-all-btn" onclick="copyAllPrompts()">
@@ -313,10 +331,10 @@
 
       <div class="tool-links">
         <span style="font-size:13px;color:var(--ink3);align-self:center;">Open in:</span>
+        <a href="https://klingai.com" target="_blank" class="tool-link" style="border-color:#e6a817;color:#a07010;font-weight:600;">🎥 Kling AI ⭐ Best value</a>
         <a href="https://runwayml.com" target="_blank" class="tool-link">🎬 Runway</a>
         <a href="https://pika.art" target="_blank" class="tool-link">⚡ Pika</a>
-        <a href="https://klingai.com" target="_blank" class="tool-link">🎥 Kling</a>
-        <a href="https://capcut.com" target="_blank" class="tool-link">✂️ CapCut (stitch)</a>
+        <a href="https://capcut.com" target="_blank" class="tool-link">✂️ CapCut (stitch clips)</a>
       </div>
     </div>
 
@@ -455,6 +473,9 @@ function renderPrompts(scenes) {
             <button class="prompt-copy-btn" onclick="copyPrompt(this, ${i})">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy
             </button>
+            <button class="${tool === 'kling' ? 'open-kling-btn' : tool === 'runway' ? 'open-runway-btn' : 'open-pika-btn'}" onclick="copyAndOpen(${i})" title="Copies prompt and opens tool">
+              🎥 Copy & Open ${tool === 'kling' ? 'Kling' : tool === 'runway' ? 'Runway' : 'Pika'} ↗
+            </button>
           </div>
         </div>
         <div class="prompt-text" id="prompt-text-${i}">${prompt}</div>
@@ -470,6 +491,24 @@ function copyPrompt(btn, i) {
     btn.innerHTML = '✓ Copied!';
     setTimeout(() => btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy', 1500);
   });
+}
+
+function getToolUrl(tool) {
+  const urls = { runway: 'https://runwayml.com', pika: 'https://pika.art', kling: 'https://klingai.com' };
+  return urls[tool] || 'https://klingai.com';
+}
+
+function copyAndOpen(i) {
+  const text = document.getElementById('prompt-text-' + i);
+  if (text) {
+    navigator.clipboard.writeText(text.textContent).then(() => {
+      window.open(getToolUrl(currentTool), '_blank');
+    }).catch(() => {
+      window.open(getToolUrl(currentTool), '_blank');
+    });
+  } else {
+    window.open(getToolUrl(currentTool), '_blank');
+  }
 }
 
 function copyAllPrompts() {
